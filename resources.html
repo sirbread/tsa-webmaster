@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Resources - Resource Hub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Community Hub</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="resources.html" class="nav-link active">Resources</a></li>
+                <li><a href="events.html" class="nav-link">Events</a></li>
+                <li><a href="submit.html" class="nav-link">Submit Resource</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Community Resources</h1>
+            <p>Find the support and services you need</p>
+        </div>
+    </div>
+
+    <section class="resources-section">
+        <div class="container">
+            <div class="search-filter-bar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search resources...">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="healthcare">Healthcare</button>
+                    <button class="filter-btn" data-category="education">Education</button>
+                    <button class="filter-btn" data-category="food">Food</button>
+                    <button class="filter-btn" data-category="housing">Housing</button>
+                    <button class="filter-btn" data-category="employment">Employment</button>
+                    <button class="filter-btn" data-category="legal">Legal</button>
+                    <button class="filter-btn" data-category="mental-health">Mental Health</button>
+                    <button class="filter-btn" data-category="youth">Youth Programs</button>
+                    <button class="filter-btn" data-category="seniors">Seniors</button>
+                </div>
+            </div>
+
+            <div id="resourceCount" class="resource-count">Showing <span id="countNumber">0</span> resources</div>
+
+            <div class="resources-grid" id="resourcesGrid">
+                <!-- Resources will be dynamically loaded here -->
+            </div>
+
+            <div id="noResults" class="no-results" style="display: none;">
+                <p>No resources found matching your search.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Community Hub</h3>
+                    <p>Connecting our community with vital resources and support services.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="resources.html">Browse Resources</a></li>
+                        <li><a href="events.html">Upcoming Events</a></li>
+                        <li><a href="submit.html">Submit Resource</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: info@communityhub.org</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Community Resource Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="resources-data.js"></script>
+    <script src="resources.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

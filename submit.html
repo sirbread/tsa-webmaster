@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Resource - Community Hub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Community Hub</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="resources.html" class="nav-link">Resources</a></li>
+                <li><a href="events.html" class="nav-link">Events</a></li>
+                <li><a href="submit.html" class="nav-link active">Submit Resource</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Submit a Resource</h1>
+            <p>Help us grow our community resource directory</p>
+        </div>
+    </div>
+
+    <section class="form-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-intro">
+                    <h2>Know a valuable community resource?</h2>
+                    <p>Share information about local organizations, services, or programs that could benefit our community. All submissions will be reviewed before being added to our directory.</p>
+                </div>
+
+                <form id="submitForm" class="resource-form">
+                    <div class="form-group">
+                        <label for="resourceName">Resource Name *</label>
+                        <input type="text" id="resourceName" name="resourceName" required placeholder="Enter organization or program name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category *</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="education">Education</option>
+                            <option value="food">Food Assistance</option>
+                            <option value="housing">Housing</option>
+                            <option value="employment">Employment</option>
+                            <option value="legal">Legal Services</option>
+                            <option value="mental-health">Mental Health</option>
+                            <option value="youth">Youth Programs</option>
+                            <option value="seniors">Senior Services</option>
+                            <option value="transportation">Transportation</option>
+                            <option value="financial">Financial Assistance</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description *</label>
+                        <textarea id="description" name="description" required rows="4" placeholder="Describe the services or programs offered"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address" placeholder="Street address">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="contact@example.org">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="website">Website</label>
+                            <input type="url" id="website" name="website" placeholder="https://www.example.org">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hours">Hours of Operation</label>
+                        <input type="text" id="hours" name="hours" placeholder="Mon-Fri 9:00 AM - 5:00 PM">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eligibility">Eligibility Requirements</label>
+                        <textarea id="eligibility" name="eligibility" rows="3" placeholder="Are there any requirements to access this resource?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="submitterName">Your Name *</label>
+                        <input type="text" id="submitterName" name="submitterName" required placeholder="Your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="submitterEmail">Your Email *</label>
+                        <input type="email" id="submitterEmail" name="submitterEmail" required placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relationship">Relationship to Resource</label>
+                        <select id="relationship" name="relationship">
+                            <option value="">Select one</option>
+                            <option value="employee">I work here</option>
+                            <option value="volunteer">I volunteer here</option>
+                            <option value="user">I've used this service</option>
+                            <option value="community">Community member</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalInfo">Additional Information</label>
+                        <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other details you'd like to share"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Submit Resource</button>
+                        <button type="reset" class="btn btn-secondary">Clear Form</button>
+                    </div>
+                </form>
+
+                <div id="successMessage" class="success-message" style="display: none;">
+                    <h3>✓ Thank You!</h3>
+                    <p>Your resource submission has been received. We'll review it and add it to our directory soon.</p>
+                    <button onclick="location.reload()" class="btn btn-secondary">Submit Another</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Community Hub</h3>
+                    <p>Connecting our community with vital resources and support services.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="resources.html">Browse Resources</a></li>
+                        <li><a href="events.html">Upcoming Events</a></li>
+                        <li><a href="submit.html">Submit Resource</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: info@communityhub.org</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Community Resource Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="submit.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
