@@ -251,7 +251,7 @@ h1, h2, h3, h4, h5, h6 {
 .carousel-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 500px;
+    height: 700px;
 }
 
 .carousel-text {
@@ -356,6 +356,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-dark);
     font-weight: 600;
     padding: 0 1rem;
+    margin-left: auto;
+    order: 2;
 }
 
 .carousel-btn {
@@ -372,6 +374,7 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: center;
     font-weight: 700;
+    order: 1;
 }
 
 .carousel-btn:hover {

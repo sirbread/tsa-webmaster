@@ -201,31 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start autoplay by default
     startAutoplay();
 
-    // Pause autoplay on hover/focus to avoid surprise movement while reading
-    const carouselContainer = document.querySelector('.carousel-container');
-    if (carouselContainer) {
-      carouselContainer.addEventListener('mouseenter', () => {
-        stopAutoplay();
-      });
-      carouselContainer.addEventListener('mouseleave', () => {
-        // only restart autoplay if play state was active before hover
-        if (!carouselState.isPlaying && playPauseBtn && playPauseBtn.textContent === '❚❚') {
-          // If playPauseBtn text was '❚❚' that means it was playing; but we set to ▶ on stop.
-          // Simpler: always restart autoplay when leaving if the control currently shows '❚❚'.
-          startAutoplay();
-        } else {
-          // restart autoplay by default to preserve behavior
-          startAutoplay();
-        }
-      });
-
-      // Also pause on focus inside carousel for keyboard users
-      carouselContainer.addEventListener('focusin', stopAutoplay);
-      carouselContainer.addEventListener('focusout', () => {
-        startAutoplay();
-      });
-    }
-
     // Keyboard support: left/right arrows
     document.addEventListener('keydown', (e) => {
       if (document.activeElement && /input|textarea/i.test(document.activeElement.tagName)) {
