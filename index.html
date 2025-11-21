@@ -3,221 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Resource Hub - Home</title>
-    <link href="https://db.onlinewebfonts.com/c/3e98a628495e767ae59f5cfb81d53274?family=Grab+Community+Solid+VN" rel="stylesheet">
-    <link href="https://db.onlinewebfonts.com/c/92e658a5cfb364fb9e2ade4d23e1e93a?family=Florentia+Bold" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Aurora Community Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0a192f',
+                        gold: '#d4af37',
+                        lightGold: '#f3e5ab',
+                        offWhite: '#f8f9fa'
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'], // Simulating Grab Community
+                        serif: ['Playfair Display', 'serif'], // Simulating Florentia
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Font Loading (If you have local files, uncomment below) */
+        /* @font-face { font-family: 'Grab Community'; src: url('fonts/GrabCommunity.woff2'); }
+        @font-face { font-family: 'Florentia'; src: url('fonts/Florentia.woff2'); }
+        */
+        
+        .video-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -1; filter: brightness(0.4);
+        }
+        .nav-link.active { color: #d4af37; border-bottom: 2px solid #d4af37; }
+    </style>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">Community Hub</a>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link active">Home</a></li>
-                <li><a href="resources.html" class="nav-link">Resources</a></li>
-                <li><a href="events.html" class="nav-link">Events</a></li>
-                <li><a href="submit.html" class="nav-link">Submit Resource</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+<body class="bg-offWhite text-navy font-sans flex flex-col min-h-screen">
+
+    <nav class="bg-navy text-white sticky top-0 z-50 shadow-lg transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-navy font-bold text-xl group-hover:rotate-12 transition">A</div>
+                    <span class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></span>
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link active font-semibold tracking-wide hover:text-gold transition py-2">Home</a>
+                    <a href="resources.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Resources</a>
+                    <a href="events.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Events</a>
+                    <a href="about.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">About</a>
+                    <a href="submit.html" class="bg-gold text-navy px-6 py-2 rounded-full font-bold hover:bg-white transition shadow-md transform hover:-translate-y-0.5">Submit Resource</a>
+                </div>
+
+                <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-navy border-t border-gray-700">
+            <a href="index.html" class="block px-4 py-3 hover:bg-gray-800 text-gold">Home</a>
+            <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800">Resources</a>
+            <a href="events.html" class="block px-4 py-3 hover:bg-gray-800">Events</a>
+            <a href="about.html" class="block px-4 py-3 hover:bg-gray-800">About</a>
+            <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit Resource</a>
         </div>
     </nav>
 
-    <header class="hero">
-        <video class="hero-video" autoplay muted loop>
+    <header class="relative h-screen flex items-center justify-center text-center px-4 overflow-hidden">
+        <video autoplay muted loop playsinline class="video-bg">
             <source src="loop.mp4" type="video/mp4">
         </video>
-        <div class="hero-content">
-            <h1>Welcome to Our Community</h1>
-            <p>Connecting residents with local resources, support services, and opportunities</p>
-            <a href="resources.html" class="btn btn-primary">Explore Resources</a>
+        
+        <div class="relative z-10 max-w-4xl mx-auto fade-in">
+            <h1 class="font-serif text-5xl md:text-7xl text-white font-bold mb-6 drop-shadow-lg leading-tight">
+                Connect. Support. <br><span class="text-gold">Thrive.</span>
+            </h1>
+            <p class="text-xl text-gray-200 mb-10 font-light tracking-wide">The official community resource directory for the City of Aurora.</p>
+            <a href="resources.html" class="inline-block bg-gold text-navy text-lg font-bold px-10 py-4 rounded-full hover:bg-white hover:scale-105 transition shadow-xl">
+                Explore Resources
+            </a>
         </div>
     </header>
 
-    <section class="featured-section">
-        <div class="container">
-            <h2 class="section-title">Featured Resources</h2>
-            <div class="featured-carousel">
-                <div class="carousel-container">
-                    <div class="carousel-slide active">
-                        <div class="carousel-content">
-                            <div class="carousel-text">
-                                <h3>Community Health Center</h3>
-                                <div class="carousel-meta">
-                                    <span class="category">Healthcare</span>
-                                </div>
-                                <p class="carousel-description">Providing affordable healthcare services to all residents, including free health screenings, wellness programs, and preventive care. Walk-ins welcome.</p>
-                                <div class="carousel-details">
-                                    <p><strong>📍 Location:</strong> 123 Main Street</p>
-                                    <p><strong>📞 Phone:</strong> (555) 0100</p>
-                                    <p><strong>⏰ Hours:</strong> Mon-Fri 8:00 AM - 6:00 PM</p>
-                                </div>
-                                <a href="resources.html" class="btn btn-primary">View All Resources</a>
-                            </div>
-                            <div class="carousel-image">
-                                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=600&fit=crop" alt="Community Health Center">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="carousel-slide">
-                        <div class="carousel-content">
-                            <div class="carousel-text">
-                                <h3>Public Library & Learning Center</h3>
-                                <div class="carousel-meta">
-                                    <span class="category">Education</span>
-                                </div>
-                                <p class="carousel-description">Free computer access, tutoring programs, book clubs, and educational workshops for all ages. Thousands of books, digital resources, and community meeting spaces available.</p>
-                                <div class="carousel-details">
-                                    <p><strong>📍 Location:</strong> 456 Oak Avenue</p>
-                                    <p><strong>📞 Phone:</strong> (555) 0200</p>
-                                    <p><strong>⏰ Hours:</strong> Mon-Thu 9:00 AM - 8:00 PM</p>
-                                </div>
-                                <a href="resources.html" class="btn btn-primary">View All Resources</a>
-                            </div>
-                            <div class="carousel-image">
-                                <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800&h=600&fit=crop" alt="Public Library">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="carousel-slide">
-                        <div class="carousel-content">
-                            <div class="carousel-text">
-                                <h3>Community Food Bank</h3>
-                                <div class="carousel-meta">
-                                    <span class="category">Food Assistance</span>
-                                </div>
-                                <p class="carousel-description">Emergency food assistance and nutrition programs for families in need. No appointment necessary. We provide fresh produce, pantry staples, and nutrition education.</p>
-                                <div class="carousel-details">
-                                    <p><strong>📍 Location:</strong> 789 Elm Street</p>
-                                    <p><strong>📞 Phone:</strong> (555) 0300</p>
-                                    <p><strong>⏰ Hours:</strong> Tue, Thu 10:00 AM - 4:00 PM</p>
-                                </div>
-                                <a href="resources.html" class="btn btn-primary">View All Resources</a>
-                            </div>
-                            <div class="carousel-image">
-                                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop" alt="Food Bank">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="carousel-slide">
-                        <div class="carousel-content">
-                            <div class="carousel-text">
-                                <h3>Workforce Development Center</h3>
-                                <div class="carousel-meta">
-                                    <span class="category">Employment</span>
-                                </div>
-                                <p class="carousel-description">Job training programs, resume workshops, career counseling, and job placement services. Connect with local employers and gain the skills you need to succeed.</p>
-                                <div class="carousel-details">
-                                    <p><strong>📍 Location:</strong> 567 Maple Drive</p>
-                                    <p><strong>📞 Phone:</strong> (555) 0500</p>
-                                    <p><strong>⏰ Hours:</strong> Mon-Fri 8:00 AM - 6:00 PM</p>
-                                </div>
-                                <a href="resources.html" class="btn btn-primary">View All Resources</a>
-                            </div>
-                            <div class="carousel-image">
-                                <img src="https://images.unsplash.com/photo-1552581234-26160f608093?w=800&h=600&fit=crop" alt="Workforce Development">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="carousel-slide">
-                        <div class="carousel-content">
-                            <div class="carousel-text">
-                                <h3>Mental Health Services Center</h3>
-                                <div class="carousel-meta">
-                                    <span class="category">Mental Health</span>
-                                </div>
-                                <p class="carousel-description">Counseling, therapy, crisis intervention, and support groups for mental health and substance abuse. 24/7 crisis hotline available. All services are confidential.</p>
-                                <div class="carousel-details">
-                                    <p><strong>📍 Location:</strong> 123 Birch Road</p>
-                                    <p><strong>📞 Phone:</strong> (555) 0700</p>
-                                    <p><strong>⏰ Hours:</strong> Mon-Fri 8:00 AM - 7:00 PM</p>
-                                </div>
-                                <a href="resources.html" class="btn btn-primary">View All Resources</a>
-                            </div>
-                            <div class="carousel-image">
-                                <img src="https://images.unsplash.com/photo-1573497491208-6b1acb260507?w=800&h=600&fit=crop" alt="Mental Health Services">
-                            </div>
-                        </div>
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-end mb-10 border-b border-gray-200 pb-4">
+                <div>
+                    <h2 class="font-serif text-4xl text-navy font-bold">Featured Organizations</h2>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span id="slideCounter" class="text-navy font-bold font-serif text-xl">1 / 5</span>
+                    <button id="togglePlay" class="w-10 h-10 rounded-full border border-navy flex items-center justify-center hover:bg-navy hover:text-white transition"><i class="fa-solid fa-pause"></i></button>
+                    <div class="flex gap-2">
+                        <button id="prevSlide" class="w-12 h-12 bg-gray-100 hover:bg-gold rounded-full transition flex items-center justify-center"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button id="nextSlide" class="w-12 h-12 bg-navy text-white hover:bg-gold hover:text-navy rounded-full transition flex items-center justify-center"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
+            </div>
 
-                <div class="carousel-controls">
-                    <span class="carousel-counter"><span id="currentSlide">1</span> of <span id="totalSlides">5</span></span>
-                    <button class="carousel-btn prev" aria-label="Previous slide">‹</button>
-                    <button class="carousel-btn play-pause" aria-label="Pause">❚❚</button>
-                    <button class="carousel-btn next" aria-label="Next slide">›</button>
-                </div>
+            <div class="relative overflow-hidden rounded-2xl h-[500px] shadow-2xl">
+                <div id="carouselTrack" class="flex h-full transition-transform duration-500 ease-in-out">
+                    </div>
             </div>
         </div>
     </section>
 
-    <section class="stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number" data-target="50">0</div>
-                    <div class="stat-label">Community Resources</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-target="15">0</div>
-                    <div class="stat-label">Active Programs</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-target="1200">0</div>
-                    <div class="stat-label">Residents Served</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-target="25">0</div>
-                    <div class="stat-label">Partner Organizations</div>
-                </div>
+    <section class="bg-navy text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="stat-item">
+                <div class="text-5xl font-serif font-bold text-gold mb-2" data-target="50">0</div>
+                <div class="text-sm uppercase tracking-widest opacity-80">Community Resources</div>
+            </div>
+            <div class="stat-item">
+                <div class="text-5xl font-serif font-bold text-gold mb-2" data-target="15">0</div>
+                <div class="text-sm uppercase tracking-widest opacity-80">Active Programs</div>
+            </div>
+            <div class="stat-item">
+                <div class="text-5xl font-serif font-bold text-gold mb-2" data-target="1200">0</div>
+                <div class="text-sm uppercase tracking-widest opacity-80">Residents Served</div>
+            </div>
+            <div class="stat-item">
+                <div class="text-5xl font-serif font-bold text-gold mb-2" data-target="25">0</div>
+                <div class="text-sm uppercase tracking-widest opacity-80">Partner Orgs</div>
             </div>
         </div>
     </section>
 
-    <section class="cta-section">
-        <div class="container">
-            <h2>Know a Resource We're Missing?</h2>
-            <p>Help us keep our community connected by sharing local resources</p>
-            <a href="submit.html" class="btn btn-secondary">Submit a Resource</a>
+    <section class="py-20 bg-lightGold/30 text-center">
+        <div class="max-w-2xl mx-auto px-4">
+            <h2 class="font-serif text-3xl font-bold text-navy mb-4">Know a Resource We're Missing?</h2>
+            <p class="text-gray-600 mb-8">Help us keep our directory up to date for the Aurora community.</p>
+            <a href="submit.html" class="inline-block border-2 border-navy text-navy font-bold px-8 py-3 rounded-full hover:bg-navy hover:text-white transition">Submit a Resource</a>
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Community Hub</h3>
-                    <p>Connecting our community with vital resources and support services.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="resources.html">Browse Resources</a></li>
-                        <li><a href="events.html">Upcoming Events</a></li>
-                        <li><a href="submit.html">Submit Resource</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: info@communityhub.org</p>
-                    <p>Phone: (555) 123-4567</p>
+    <footer class="bg-navy text-white py-12 mt-auto border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h3 class="font-serif text-2xl text-gold mb-4">AuroraHub</h3>
+                <p class="text-gray-400">Connecting the community through accessible information and shared resources.</p>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase tracking-wider mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="index.html" class="hover:text-gold">Home</a></li>
+                    <li><a href="resources.html" class="hover:text-gold">Directory</a></li>
+                    <li><a href="events.html" class="hover:text-gold">Events</a></li>
+                    <li><a href="submit.html" class="hover:text-gold">Submit Resource</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase tracking-wider mb-4">Contact</h4>
+                <p class="text-gray-400">info@aurorahub.org</p>
+                <p class="text-gray-400">Aurora, CO 80012</p>
+                <div class="flex gap-4 mt-4">
+                    <a href="#" class="text-gold hover:text-white"><i class="fa-brands fa-facebook text-xl"></i></a>
+                    <a href="#" class="text-gold hover:text-white"><i class="fa-brands fa-twitter text-xl"></i></a>
+                    <a href="#" class="text-gold hover:text-white"><i class="fa-brands fa-instagram text-xl"></i></a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Community Resource Hub. All rights reserved.</p>
-            </div>
+        </div>
+        <div class="text-center mt-12 text-gray-600 text-sm border-t border-gray-800 pt-8">
+            &copy; 2025 Aurora Community Hub. All rights reserved.
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

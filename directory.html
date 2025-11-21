@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aurora Resource Directory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { auroraBlue: '#0056b3' }
+                }
+            }
+        }
+    </script>
+    <style>
+        #map { height: 100%; min-height: 600px; width: 100%; z-index: 0; }
+        
+        /* Modal Styles */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .modal-backdrop.open .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 h-screen flex flex-col overflow-hidden">
+
+    <nav class="bg-white border-b border-slate-200 z-40 flex-shrink-0">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <a href="index.html" class="text-xl font-extrabold text-slate-900">Aurora<span class="text-auroraBlue">Hub</span></a>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-100 p-1 rounded-md flex border border-slate-200">
+                    <button onclick="switchView('grid')" id="btnGrid" class="px-4 py-1.5 rounded bg-white shadow-sm text-sm font-bold text-slate-900 transition">List</button>
+                    <button onclick="switchView('map')" id="btnMap" class="px-4 py-1.5 rounded text-slate-600 hover:bg-white/50 text-sm font-medium transition">Map</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex flex-1 overflow-hidden relative">
+        
+        <aside class="w-80 bg-white border-r border-slate-200 flex flex-col z-30 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+            <div class="p-6 border-b border-slate-100">
+                <div class="relative">
+                    <i class="fa-solid fa-search absolute left-3 top-3.5 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Search keywords..." class="w-full pl-10 pr-4 py-3 rounded-md bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-auroraBlue focus:border-auroraBlue outline-none transition text-sm">
+                </div>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1">
+                <h3 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">Filter by Type</h3>
+                <div class="space-y-1" id="categoryFilters">
+                    </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 relative bg-slate-50">
+            <div id="gridView" class="h-full overflow-y-auto p-6 md:p-10">
+                <div id="resourceGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    </div>
+            </div>
+
+            <div id="mapView" class="h-full w-full hidden relative">
+                <div id="map"></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="detailsModal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] modal-content">
+            
+            <div class="bg-auroraBlue p-6 text-white flex justify-between items-start">
+                <div>
+                    <span id="modalCategory" class="bg-white/20 text-white px-2 py-1 rounded text-xs font-bold uppercase tracking-wide">Category</span>
+                    <h2 id="modalTitle" class="text-2xl font-bold mt-2">Resource Name</h2>
+                </div>
+                <button onclick="closeModal()" class="text-white/70 hover:text-white transition"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            </div>
+            
+            <div class="p-8 overflow-y-auto">
+                <div class="mb-6">
+                    <h3 class="font-bold text-slate-900 mb-2">About this Resource</h3>
+                    <p id="modalDesc" class="text-slate-600 leading-relaxed">Description goes here...</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                        <div class="text-sm text-slate-500 mb-1">Address</div>
+                        <div id="modalAddress" class="font-medium text-slate-900">123 Street</div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                        <div class="text-sm text-slate-500 mb-1">Phone</div>
+                        <div id="modalPhone" class="font-medium text-slate-900">555-5555</div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-100 pt-6">
+                    <h4 class="font-bold text-sm text-slate-900 mb-3">Services & Tags</h4>
+                    <div id="modalTags" class="flex flex-wrap gap-2">
+                        </div>
+                </div>
+            </div>
+
+            <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+                <button onclick="closeModal()" class="px-5 py-2.5 text-slate-600 font-bold hover:bg-slate-200 rounded-md transition">Close</button>
+                <a href="#" id="modalDirectionsBtn" class="px-5 py-2.5 bg-auroraBlue text-white font-bold rounded-md hover:bg-blue-700 transition shadow-sm">
+                    Get Directions
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initDirectory();
+        });
+    </script>
+</body>
+</html>
