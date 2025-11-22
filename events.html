@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Community Events</title>
+    <title>Events | Aurora Community Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -16,48 +17,66 @@
             }
         }
     </script>
-    <style>.nav-link.active-page { color: #d4af37; border-bottom: 2px solid #d4af37; }</style>
+    <style>
+        .nav-link.active-page { color: #d4af37; border-bottom: 2px solid #d4af37; }
+    </style>
 </head>
-<body class="bg-offWhite text-navy font-sans flex flex-col min-h-screen">
+<body class="bg-offWhite text-navy font-sans">
 
-    <nav class="bg-navy text-white sticky top-0 z-50">
+    <nav class="bg-navy text-white shrink-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
             <a href="index.html" class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="index.html" class="nav-link hover:text-gold py-2">Home</a>
-                <a href="resources.html" class="nav-link hover:text-gold py-2">Resources</a>
-                <a href="events.html" class="nav-link active-page hover:text-gold py-2">Events</a>
-                <a href="about.html" class="nav-link hover:text-gold py-2">About</a>
-                <a href="submit.html" class="bg-gold text-navy px-5 py-2 rounded-full font-bold">Submit</a>
+                <a href="index.html" class="nav-link hover:text-gold transition py-2">Home</a>
+                <a href="resources.html" class="nav-link hover:text-gold transition py-2">Resources</a>
+                <a href="events.html" class="nav-link active-page hover:text-gold transition py-2">Events</a>
+                <a href="about.html" class="nav-link hover:text-gold transition py-2">About</a>
+                <a href="submit.html" class="bg-gold text-navy px-5 py-2 rounded-full font-bold hover:bg-white transition">Submit</a>
             </div>
-            <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold"><i class="fa-solid fa-bars"></i></button>
+             <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </nav>
-    <div id="mobileMenu" class="hidden md:hidden bg-navy text-white border-t border-gray-700">
+
+    <div id="mobileMenu" class="hidden absolute top-20 left-0 w-full bg-navy text-white z-50 border-t border-gray-700">
         <a href="index.html" class="block px-4 py-3 hover:bg-gray-800">Home</a>
+        <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800">Resources</a>
         <a href="events.html" class="block px-4 py-3 hover:bg-gray-800">Events</a>
+        <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit</a>
     </div>
 
-    <div class="bg-navy py-16 text-center">
-        <h1 class="font-serif text-4xl text-white font-bold mb-4">Community Calendar</h1>
-        <p class="text-gray-300">Join us for workshops, food drives, and city meetings.</p>
-    </div>
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <h1 class="font-serif text-4xl font-bold text-navy mb-8 border-b-2 border-gold pb-3">Community Events</h1>
+        
+        <div class="flex flex-col lg:flex-row gap-8">
 
-    <div class="max-w-7xl mx-auto px-4 py-12">
-        <div class="flex flex-wrap justify-center gap-4 mb-12">
-            <button class="event-filter bg-navy text-white px-6 py-2 rounded-full font-bold shadow-lg" data-type="all">All Events</button>
-            <button class="event-filter bg-white text-navy border border-gray-200 px-6 py-2 rounded-full font-bold hover:bg-gray-50" data-type="upcoming">Upcoming</button>
-            <button class="event-filter bg-white text-navy border border-gray-200 px-6 py-2 rounded-full font-bold hover:bg-gray-50" data-type="weekly">Weekly</button>
-            <button class="event-filter bg-white text-navy border border-gray-200 px-6 py-2 rounded-full font-bold hover:bg-gray-50" data-type="monthly">Monthly</button>
-        </div>
+            <div class="lg:w-2/3 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <h2 class="text-2xl font-bold text-navy">Calendar View</h2>
+                    
+                    <div class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
+                        <button id="monthViewBtn" data-view="month" class="calendar-toggle bg-navy text-white px-4 py-1 text-sm font-semibold rounded-md transition">Month</button>
+                        <button id="weekViewBtn" data-view="week" class="calendar-toggle text-navy px-4 py-1 text-sm font-semibold rounded-md hover:bg-gray-200 transition">Week</button>
+                    </div>
+                </div>
 
-        <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div id="calendar" class="w-full min-h-[600px] text-navy">
+                    <div class="text-center py-20 text-gray-400">Loading Calendar...</div>
+                </div>
             </div>
-    </div>
 
-    <footer class="bg-navy text-white py-8 mt-auto text-center border-t border-gray-800">
-        <p>&copy; 2025 Aurora Community Hub.</p>
-    </footer>
+            <div class="lg:w-1/3">
+                <div class="bg-navy text-white p-6 rounded-xl shadow-lg h-full">
+                    <h2 class="text-2xl font-bold border-b border-gold pb-3 mb-4">Upcoming Events</h2>
+                    
+                    <div id="upcomingEventsList" class="space-y-4">
+                        <div class="text-center text-gray-300">Loading upcoming events...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <script src="main.js"></script>
 </body>
