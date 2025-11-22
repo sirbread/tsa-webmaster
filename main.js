@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
     /* --- GLOBAL: Mobile Menu --- */
     const menuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -9,27 +8,190 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* --- PAGE: INDEX (Carousel & Stats) --- */
+    /* --- PAGE INITIALIZATION CHECKS --- */
     if (document.getElementById('carouselTrack')) {
         initCarousel();
         initStats();
     }
 
-    /* --- PAGE: RESOURCES (Logic & Map) --- */
     if (document.getElementById('resourceList')) {
         initResources();
     }
 
-    /* --- PAGE: EVENTS (Grid & Filter) --- */
     if (document.getElementById('eventsGrid')) {
         initEvents();
     }
 
-    /* --- PAGE: SUBMIT (Form Handling) --- */
     if (document.getElementById('resourceForm')) {
         initSubmit();
     }
 });
+
+/* ==========================================
+   RESOURCES LOGIC (The Fix)
+   ========================================== */
+const resourceData = [
+    { id:1, title: "Aurora Mental Health", cat: "Healthcare", address: "2206 Victor St", phone: "303-617-2300", lat: 39.7508, lng: -104.8391, desc: "Comprehensive mental health services." },
+    { id:2, title: "Interfaith Food Bank", cat: "Food", address: "1553 Clinton St", phone: "303-360-0260", lat: 39.7405, lng: -104.8772, desc: "Emergency food boxes available." },
+    { id:3, title: "Comitis Crisis Center", cat: "Housing", address: "2178 Victor St", phone: "303-341-9160", lat: 39.7492, lng: -104.8395, desc: "Shelter for families and veterans." },
+    { id:4, title: "Stride Community Health", cat: "Healthcare", address: "10680 Del Mar Pkwy", phone: "303-360-6276", lat: 39.7350, lng: -104.8400, desc: "Affordable medical care." },
+    { id:5, title: "Aurora Public Schools", cat: "Education", address: "15701 E 1st Ave", phone: "303-344-8060", lat: 39.7170, lng: -104.8050, desc: "District administrative offices." }
+];
+
+let map;
+let markers = {}; // Changed to Object to store by ID
+
+function initResources() {
+    const searchInput = document.getElementById('resourceSearch');
+    const filterDropdown = document.getElementById('resourceFilter');
+    
+    // Listeners
+    searchInput.addEventListener('input', () => filterData());
+    filterDropdown.addEventListener('change', () => filterData());
+
+    // Map Init
+    if(document.getElementById('map')) {
+        map = L.map('map').setView([39.7294, -104.8319], 13);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+    }
+
+    filterData(); // Initial Render
+}
+
+function filterData() {
+    const term = document.getElementById('resourceSearch').value.toLowerCase();
+    const category = document.getElementById('resourceFilter').value;
+
+    const filtered = resourceData.filter(item => {
+        const matchSearch = item.title.toLowerCase().includes(term);
+        const matchCat = category === 'All' || item.cat === category;
+        return matchSearch && matchCat;
+    });
+
+    renderList(filtered);
+    renderMap(filtered);
+    document.getElementById('resourceCount').textContent = `Showing ${filtered.length} resources`;
+}
+
+function renderList(data) {
+    const list = document.getElementById('resourceList');
+    if(data.length === 0) {
+        list.innerHTML = `<div class="p-8 text-center text-gray-400">No results found.</div>`;
+        return;
+    }
+    list.innerHTML = data.map(item => `
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition group" id="card-${item.id}">
+            <div class="cursor-pointer" onclick="focusOnMap(${item.id})">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold uppercase text-gold tracking-wide">${item.cat}</span>
+                    <i class="fa-solid fa-location-dot text-gray-300 group-hover:text-navy transition"></i>
+                </div>
+                <h3 class="font-bold text-navy text-lg">${item.title}</h3>
+                <p class="text-sm text-gray-500 truncate mb-3">${item.desc}</p>
+            </div>
+            <button onclick="openModal(${item.id})" class="w-full py-2 text-xs font-bold text-navy border border-gray-200 rounded hover:bg-navy hover:text-white transition">
+                View Details
+            </button>
+        </div>
+    `).join('');
+}
+
+function renderMap(data) {
+    if(!map) return;
+    
+    // Clear existing markers
+    Object.values(markers).forEach(m => map.removeLayer(m));
+    markers = {}; // Reset storage
+    
+    data.forEach(item => {
+        const marker = L.marker([item.lat, item.lng])
+            .addTo(map)
+            .bindPopup(`<b>${item.title}</b><br>${item.address}`);
+        
+        // Store reference by ID so we can find it later
+        markers[item.id] = marker; 
+    });
+}
+
+// New Function: Focuses map instead of freezing screen
+window.focusOnMap = function(id) {
+    const item = resourceData.find(i => i.id === id);
+    const marker = markers[id];
+
+    if (item && map) {
+        // Smooth animation to location
+        map.flyTo([item.lat, item.lng], 15, {
+            duration: 1.5
+        });
+
+        // Open the popup on the map
+        if (marker) {
+            setTimeout(() => marker.openPopup(), 500); // Small delay for animation
+        }
+
+        // On mobile, verify map is visible
+        if(window.innerWidth < 768) {
+             // Optional: Scroll to map or show map container
+        }
+    }
+}
+
+
+window.openModal = function(id) {
+    const item = resourceData.find(i => i.id === id);
+    if(!item) return;
+    
+    // Set text content
+    document.getElementById('mTitle').innerText = item.title;
+    document.getElementById('mCategory').innerText = item.cat;
+    document.getElementById('mDesc').innerText = item.desc;
+    document.getElementById('mAddress').innerText = item.address;
+    document.getElementById('mPhone').innerText = item.phone;
+
+    const mapLink = document.querySelector('#resourceModal a');
+    
+    // Standard Google Maps URL format: q=<destination address>
+    const addressQuery = encodeURIComponent(item.address + ', Aurora, CO');
+    mapLink.href = `https://www.google.com/maps/dir/?api=1&destination=${addressQuery}`;
+    mapLink.target = "_blank"; // Open in new tab
+    // ------------------------------------------
+
+    const modal = document.getElementById('resourceModal');
+    const content = document.getElementById('modalContent');
+    
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        content.classList.remove('scale-95', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+window.closeModal = function() {
+    const modal = document.getElementById('resourceModal');
+    const content = document.getElementById('modalContent');
+    
+    content.classList.remove('scale-100', 'opacity-100');
+    content.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => modal.classList.add('hidden'), 300);
+}
+
+window.toggleMobileMap = function() {
+    const mapDiv = document.querySelector('main'); // Adjusted selector
+    const btn = document.querySelector('button[onclick="toggleMobileMap()"] i');
+    
+    if(mapDiv.classList.contains('hidden')) {
+        mapDiv.classList.remove('hidden');
+        btn.classList.remove('fa-map');
+        btn.classList.add('fa-list');
+        if(map) map.invalidateSize(); // Fixes gray map issue
+    } else {
+        mapDiv.classList.add('hidden');
+        btn.classList.remove('fa-list');
+        btn.classList.add('fa-map');
+    }
+}
 
 /* ==========================================
    CAROUSEL LOGIC
@@ -120,125 +282,6 @@ function initStats() {
     stats.forEach(s => observer.observe(s));
 }
 
-/* ==========================================
-   RESOURCES (Filter, Map, Modal)
-   ========================================== */
-const resourceData = [
-    { id:1, title: "Aurora Mental Health", cat: "Mental Health", address: "2206 Victor St", phone: "303-617-2300", lat: 39.7508, lng: -104.8391, desc: "Comprehensive mental health services." },
-    { id:2, title: "Interfaith Food Bank", cat: "Food", address: "1553 Clinton St", phone: "303-360-0260", lat: 39.7405, lng: -104.8772, desc: "Emergency food boxes available." },
-    { id:3, title: "Comitis Crisis Center", cat: "Housing", address: "2178 Victor St", phone: "303-341-9160", lat: 39.7492, lng: -104.8395, desc: "Shelter for families and veterans." },
-    { id:4, title: "Stride Community Health", cat: "Healthcare", address: "10680 Del Mar Pkwy", phone: "303-360-6276", lat: 39.7350, lng: -104.8400, desc: "Affordable medical care." },
-    { id:5, title: "Aurora Public Schools", cat: "Education", address: "15701 E 1st Ave", phone: "303-344-8060", lat: 39.7170, lng: -104.8050, desc: "District administrative offices." }
-];
-
-let map, markers = [];
-
-function initResources() {
-    // Search & Filter Listeners
-    const searchInput = document.getElementById('resourceSearch');
-    const buttons = document.querySelectorAll('.filter-btn');
-    
-    searchInput.addEventListener('input', () => filterData());
-    buttons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            // Toggle Active Class
-            buttons.forEach(b => b.classList.remove('active-filter', 'bg-navy', 'text-white'));
-            e.target.classList.add('active-filter', 'bg-navy', 'text-white');
-            filterData();
-        });
-    });
-
-    // Map Init
-    if(document.getElementById('map')) {
-        map = L.map('map').setView([39.7294, -104.8319], 13);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-    }
-
-    filterData(); // Initial Render
-}
-
-function filterData() {
-    const term = document.getElementById('resourceSearch').value.toLowerCase();
-    const activeBtn = document.querySelector('.filter-btn.active-filter');
-    const category = activeBtn ? activeBtn.getAttribute('data-category') : 'All';
-
-    const filtered = resourceData.filter(item => {
-        const matchSearch = item.title.toLowerCase().includes(term);
-        const matchCat = category === 'All' || item.cat === category;
-        return matchSearch && matchCat;
-    });
-
-    renderList(filtered);
-    renderMap(filtered);
-    document.getElementById('resourceCount').textContent = `Showing ${filtered.length} resources`;
-}
-
-function renderList(data) {
-    const list = document.getElementById('resourceList');
-    if(data.length === 0) {
-        list.innerHTML = `<div class="p-8 text-center text-gray-400">No results found.</div>`;
-        return;
-    }
-    list.innerHTML = data.map(item => `
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md cursor-pointer transition" onclick="openModal(${item.id})">
-            <div class="flex justify-between mb-2">
-                <span class="text-xs font-bold uppercase text-gold tracking-wide">${item.cat}</span>
-                <i class="fa-solid fa-chevron-right text-gray-300"></i>
-            </div>
-            <h3 class="font-bold text-navy">${item.title}</h3>
-            <p class="text-sm text-gray-500 truncate">${item.desc}</p>
-        </div>
-    `).join('');
-}
-
-function renderMap(data) {
-    if(!map) return;
-    // Clear markers
-    markers.forEach(m => map.removeLayer(m));
-    markers = [];
-    
-    data.forEach(item => {
-        const marker = L.marker([item.lat, item.lng]).addTo(map)
-            .bindPopup(`<b>${item.title}</b><br>${item.address}`);
-        markers.push(marker);
-    });
-}
-
-function openModal(id) {
-    const item = resourceData.find(i => i.id === id);
-    if(!item) return;
-    
-    document.getElementById('mTitle').innerText = item.title;
-    document.getElementById('mCategory').innerText = item.cat;
-    document.getElementById('mDesc').innerText = item.desc;
-    document.getElementById('mAddress').innerText = item.address;
-    document.getElementById('mPhone').innerText = item.phone;
-    
-    const modal = document.getElementById('resourceModal');
-    const content = document.getElementById('modalContent');
-    
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-        content.classList.remove('scale-95', 'opacity-0');
-        content.classList.add('scale-100', 'opacity-100');
-    }, 10);
-}
-
-function closeModal() {
-    const modal = document.getElementById('resourceModal');
-    const content = document.getElementById('modalContent');
-    
-    content.classList.remove('scale-100', 'opacity-100');
-    content.classList.add('scale-95', 'opacity-0');
-    setTimeout(() => modal.classList.add('hidden'), 300);
-}
-
-// Toggle Map for Mobile
-window.switchView = function(type) {
-    // Simple toggle logic for sidebar
-    // This is a basic implementation, ideally you'd toggle classes on the sidebar
-    alert("View switched to " + type);
-}
 
 /* ==========================================
    EVENTS LOGIC
