@@ -274,6 +274,24 @@ let currentYear = new Date().getFullYear();
 currentMonth = 10;
 currentYear = 2025;
 
+function prevMonth() {
+    currentMonth--;
+    if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+    }
+    renderCalendar();
+}
+
+function nextMonth() {
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    }
+    renderCalendar();
+}
+
 function initCalendar() {
     const monthViewBtn = document.getElementById('monthViewBtn');
     const weekViewBtn = document.getElementById('weekViewBtn');
@@ -303,36 +321,48 @@ function setView(view) {
 }
 
 function renderCalendar() {
-    const calendarEl = document.getElementById('calendar');
+     const calendarEl = document.getElementById('calendar');
 
-    let headerText = '';
-    let bodyContent = '';
+     let headerText = '';
+     let bodyContent = '';
+     let headerControls = '';
 
-    if (currentView === 'month') {
-        headerText = new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        bodyContent = `
-            <div class="grid grid-cols-7 text-center font-bold text-gray-500 border-b pb-2">
-                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
-            </div>
-            <div class="grid grid-cols-7 gap-1 pt-2">
-                ${generateCalendarDays()}
-            </div>
-        `;
-    } else {
-         headerText = 'Current Week View (Starting Today, Nov 21, 2025)';
-         bodyContent = `
-            <div class="space-y-4 pt-4">
-                ${generateWeekView()}
-            </div>
+     if (currentView === 'month') {
+         headerText = new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+         headerControls = `
+             <div class="flex items-center justify-center gap-4 mb-4">
+                 <button onclick="prevMonth()" class="p-2 hover:bg-gray-200 rounded transition">
+                     <i class="fa-solid fa-chevron-left text-navy"></i>
+                 </button>
+                 <h3 class="text-center text-xl font-serif font-semibold text-navy w-40 -mt-1">
+                     ${headerText}
+                 </h3>
+                 <button onclick="nextMonth()" class="p-2 hover:bg-gray-200 rounded transition">
+                     <i class="fa-solid fa-chevron-right text-navy"></i>
+                 </button>
+             </div>
          `;
-    }
+         bodyContent = `
+             <div class="grid grid-cols-7 text-center font-bold text-gray-500 border-b pb-2">
+                 <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+             </div>
+             <div class="grid grid-cols-7 gap-1 pt-2">
+                 ${generateCalendarDays()}
+             </div>
+         `;
+     } else {
+          headerText = 'Current Week View (Starting Today, Nov 21, 2025)';
+          bodyContent = `
+             <div class="space-y-4 pt-4">
+                 ${generateWeekView()}
+             </div>
+          `;
+     }
 
-    calendarEl.innerHTML = `
-        <h3 class="text-center text-xl font-serif font-semibold mb-4 text-navy">
-            ${headerText} 
-        </h3>
-        ${bodyContent}
-    `;
+     calendarEl.innerHTML = `
+         ${headerControls}
+         ${bodyContent}
+     `;
 }
 
 function generateCalendarDays() {
