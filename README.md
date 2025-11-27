@@ -1,5 +1,4 @@
 # tsa-webmaster
 ## todo 
-### index
 - update information
-- update about section
+- link scc+ work log
