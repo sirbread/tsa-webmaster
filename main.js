@@ -44,31 +44,31 @@ function initCarousel() {
             title: "Aurora Mental Health & Recovery", 
             cat: "Healthcare", 
             desc: "24/7 Crisis Walk-In Clinic available for all residents.", 
-            img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+            img: "mentalhealth.jpg" 
         },
         { 
             title: "Aurora Interfaith Community Services", 
             cat: "Food", 
             desc: "Providing substantive emergency food to Aurora residents.", 
-            img: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+            img: "food.jpg" 
         },
         { 
             title: "Downtown Aurora Visual Arts", 
             cat: "Youth", 
             desc: "Community-based arts education programs for youth ages 3-17.", 
-            img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+            img: "art.jpg" 
         },
         { 
             title: "Comitis Crisis Center", 
             cat: "Housing", 
             desc: "Emergency shelter and transitional housing services.", 
-            img: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+            img: "canthisruncrysis.jpg" 
         },
         { 
             title: "Village Exchange Center", 
             cat: "Community", 
             desc: "A multi-faith community center serving immigrants and refugees.", 
-            img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+            img: "vex.jpg" 
         }
     ];
 
