@@ -425,19 +425,25 @@ window.toggleMobileMap = function() {
 }
 
 /* =========================================
-   EVENTS CALENDAR GENERATOR
-   ========================================= */
+    EVENTS CALENDAR GENERATOR
+    ========================================= */
+
+const eventTypeStyles = {
+    weekly: { bg: 'bg-navy', text: 'text-gold', icon: 'fa-star' },
+    monthly: { bg: 'bg-gold', text: 'text-navy', icon: 'fa-calendar' },
+    upcoming: { bg: 'bg-navy/70', text: 'text-gold', icon: 'fa-bolt' }
+};
 
 function generateEventsData() {
     const events = [];
     
     // 1. Static Highlight Events
     events.push(
-        { id: 101, title: "The Pond Ice Rink Opening", date: new Date(2025, 10, 26, 10, 0), loc: "Southlands", desc: "Seasonal ice skating rink opens for the winter season." },
-        { id: 102, title: "Shop Small Market", date: new Date(2025, 10, 29, 9, 0), loc: "1427 Elmira St", desc: "Support local artisans and businesses." },
-        { id: 103, title: "Merry Makers Market", date: new Date(2025, 11, 2, 16, 0), loc: "Aurora Central Library", desc: "Holiday craft fair and community gathering." },
-        { id: 104, title: "Holiday Tree Lighting", date: new Date(2025, 11, 6, 17, 30), loc: "Gateway High School", desc: "Annual holiday celebration with music and lights." },
-        { id: 105, title: "MLK Jr. Parade", date: new Date(2026, 0, 19, 10, 0), loc: "City Park", desc: "Commemorative march and celebration." }
+        { id: 101, title: "The Pond Ice Rink Opening", date: new Date(2025, 10, 26, 10, 0), loc: "Southlands", desc: "Seasonal ice skating rink opens for the winter season.", type: "upcoming" },
+        { id: 102, title: "Shop Small Market", date: new Date(2025, 10, 29, 9, 0), loc: "1427 Elmira St", desc: "Support local artisans and businesses.", type: "upcoming" },
+        { id: 103, title: "Merry Makers Market", date: new Date(2025, 11, 2, 16, 0), loc: "Aurora Central Library", desc: "Holiday craft fair and community gathering.", type: "upcoming" },
+        { id: 104, title: "Holiday Tree Lighting", date: new Date(2025, 11, 6, 17, 30), loc: "Gateway High School", desc: "Annual holiday celebration with music and lights.", type: "upcoming" },
+        { id: 105, title: "MLK Jr. Parade", date: new Date(2026, 0, 19, 10, 0), loc: "City Park", desc: "Commemorative march and celebration.", type: "upcoming" }
     );
 
     // 2. Generative Recurring Events (Nov 1 2025 - Mar 31 2026)
@@ -449,34 +455,37 @@ function generateEventsData() {
         const dateNum = d.getDate();
         
         // Mondays (Recurring City Council)
-        if (dayOfWeek === 1 && (dateNum > 7 && dateNum < 15 || dateNum > 21)) {
-            events.push({
-                title: "City Council Meeting",
-                date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 18, 30),
-                loc: "Aurora Municipal Center",
-                desc: "Public council meeting. Open to residents."
-            });
-        }
+         if (dayOfWeek === 1 && (dateNum > 7 && dateNum < 15 || dateNum > 21)) {
+             events.push({
+                 title: "City Council Meeting",
+                 date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 18, 30),
+                 loc: "Aurora Municipal Center",
+                 desc: "Public council meeting. Open to residents.",
+                 type: "monthly"
+             });
+         }
 
-        // Wednesdays (Weekly Food Pantry)
-        if (dayOfWeek === 3) {
-            events.push({
-                title: "Community Food Pantry",
-                date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 14, 0),
-                loc: "Interfaith Community Services",
-                desc: "Drive-up food distribution for families in need."
-            });
-        }
+         // Wednesdays (Weekly Food Pantry)
+         if (dayOfWeek === 3) {
+             events.push({
+                 title: "Community Food Pantry",
+                 date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 14, 0),
+                 loc: "Interfaith Community Services",
+                 desc: "Drive-up food distribution for families in need.",
+                 type: "weekly"
+             });
+         }
 
-        // Thursdays (Youth Tech)
-        if (dayOfWeek === 4) {
-            events.push({
-                title: "Teen Tech Time",
-                date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 16, 0),
-                loc: "Central Library",
-                desc: "Coding and maker space access for ages 12-18."
-            });
-        }
+         // Thursdays (Youth Tech)
+         if (dayOfWeek === 4) {
+             events.push({
+                 title: "Teen Tech Time",
+                 date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 16, 0),
+                 loc: "Central Library",
+                 desc: "Coding and maker space access for ages 12-18.",
+                 type: "weekly"
+             });
+         }
     }
     
     return events.sort((a, b) => a.date - b.date);
@@ -491,10 +500,16 @@ let currentView = 'month';
 let currentWeekStart = new Date(2025, 10, 2); 
 
 function initCalendar() {
-    currentEvents = generateEventsData();
-    currentMonth = 10;
-    currentYear = 2025;
-    currentWeekStart = new Date(2025, 10, 2);
+     currentEvents = generateEventsData();
+     const today = new Date();
+     currentMonth = today.getMonth();
+     currentYear = today.getFullYear();
+     
+     // Set week start to first Sunday of current month
+     const firstOfMonth = new Date(currentYear, currentMonth, 1);
+     const dayOffset = firstOfMonth.getDay();
+     currentWeekStart = new Date(firstOfMonth);
+     currentWeekStart.setDate(firstOfMonth.getDate() - dayOffset);
 
     const monthViewBtn = document.getElementById('monthViewBtn');
     const weekViewBtn = document.getElementById('weekViewBtn');
@@ -615,9 +630,10 @@ function renderCalendar() {
 }
 
 function generateMonthGrid() {
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    let html = '';
+     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+     const today = new Date();
+     let html = '';
 
     // Empty cells
     for (let i = 0; i < firstDay; i++) { 
@@ -627,6 +643,9 @@ function generateMonthGrid() {
     // Days
     for (let day = 1; day <= daysInMonth; day++) {
          const date = new Date(currentYear, currentMonth, day);
+         const isToday = date.getDate() === today.getDate() && 
+                         date.getMonth() === today.getMonth() && 
+                         date.getFullYear() === today.getFullYear();
          
          // Get all events for this day
          const dayEvents = currentEvents.filter(e => 
@@ -663,20 +682,24 @@ function generateMonthGrid() {
          const visibleEvents = dayEvents.slice(0, maxVisible);
          const remainder = dayEvents.length - maxVisible;
 
-         const pillsHtml = visibleEvents.map(e => `
-            <div class="text-[10px] bg-navy text-white px-1.5 py-0.5 rounded truncate mb-0.5">
+         const pillsHtml = visibleEvents.map(e => {
+            const style = eventTypeStyles[e.type] || eventTypeStyles.upcoming;
+            return `
+            <div class="text-[10px] ${style.bg} ${style.text} px-1.5 py-0.5 rounded truncate mb-0.5">
                 ${e.title}
             </div>
-         `).join('');
+         `;
+         }).join('');
 
          const moreLabel = remainder > 0 
             ? `<div class="text-[9px] text-center bg-gray-100 text-gray-500 rounded px-1 py-0.5 mt-1 font-bold">+ ${remainder} more</div>` 
             : '';
 
          // --- ASSEMBLE CELL ---
+         const cellClass = isToday ? 'border-2 border-gold bg-gold/5' : 'border border-gray-100 bg-white';
          html += `
-             <div class="h-24 md:h-28 border border-gray-100 rounded-lg p-2 transition bg-white relative group hover:z-30 hover:border-gold hover:shadow-lg cursor-pointer">
-                 <span class="font-bold text-sm text-gray-700 block mb-1">${day}</span>
+             <div class="h-24 md:h-28 ${cellClass} rounded-lg p-2 transition relative group hover:z-30 hover:border-gold hover:shadow-lg cursor-pointer">
+                 <span class="font-bold text-sm ${isToday ? 'text-gold' : 'text-gray-700'} block mb-1">${day}</span>
                  
                  <div class="overflow-hidden">
                     ${pillsHtml}
@@ -730,11 +753,11 @@ function generateWeekList() {
 }
 
 function renderUpcomingList() {
-    const listEl = document.getElementById('upcomingEventsList');
-    if(!listEl) return;
+     const listEl = document.getElementById('upcomingEventsList');
+     if(!listEl) return;
 
-    // Filter events that are in the future relative to "Now" (Nov 2025 simulation)
-    const simulatedNow = new Date(2025, 10, 20); 
+     // Filter events that are in the future relative to "Now"
+     const simulatedNow = new Date();
     
     const upcoming = currentEvents
         .filter(e => e.date >= simulatedNow)
