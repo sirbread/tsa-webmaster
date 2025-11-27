@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events | Aurora Community Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
     <script>
         tailwind.config = {
             theme: {
@@ -21,9 +21,9 @@
         .nav-link.active-page { color: #d4af37; border-bottom: 2px solid #d4af37; }
     </style>
 </head>
-<body class="bg-offWhite text-navy font-sans">
+<body class="bg-offWhite text-navy font-sans flex flex-col min-h-screen">
 
-    <nav class="bg-navy text-white shrink-0 z-50">
+    <nav class="bg-navy text-white sticky top-0 z-50 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
             <a href="index.html" class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></a>
             <div class="hidden md:flex items-center space-x-8">
@@ -33,50 +33,100 @@
                 <a href="about.html" class="nav-link hover:text-gold transition py-2">About</a>
                 <a href="submit.html" class="bg-gold text-navy px-5 py-2 rounded-full font-bold hover:bg-white transition">Submit</a>
             </div>
-             <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold">
+            <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold focus:outline-none">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
     </nav>
 
-    <div id="mobileMenu" class="hidden absolute top-20 left-0 w-full bg-navy text-white z-50 border-t border-gray-700">
+    <div id="mobileMenu" class="hidden md:hidden bg-navy text-white border-t border-gray-700">
         <a href="index.html" class="block px-4 py-3 hover:bg-gray-800">Home</a>
         <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800">Resources</a>
-        <a href="events.html" class="block px-4 py-3 hover:bg-gray-800">Events</a>
+        <a href="events.html" class="block px-4 py-3 hover:bg-gray-800 text-gold">Events</a>
+        <a href="about.html" class="block px-4 py-3 hover:bg-gray-800">About</a>
         <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit</a>
     </div>
 
-    <main class="max-w-7xl mx-auto px-4 py-12">
-        <h1 class="font-serif text-4xl font-bold text-navy mb-8 border-b-2 border-gold pb-3">Community Events</h1>
-        
-        <div class="flex flex-col lg:flex-row gap-8">
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 class="font-serif text-5xl font-bold mb-4 text-navy">Community Events</h1>
+            <p class="text-gray-600 text-lg">Stay connected with upcoming programs and activities in Aurora.</p>
+        </div>
 
-            <div class="lg:w-3/4 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                <div class="flex justify-between items-center mb-4 border-b pb-3">
-                    <h2 class="text-2xl font-bold text-navy">Calendar View</h2>
-                    
-                    <div class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
-                        <button id="monthViewBtn" data-view="month" class="calendar-toggle bg-navy text-white px-4 py-1 text-sm font-semibold rounded-md transition">Month</button>
-                        <button id="weekViewBtn" data-view="week" class="calendar-toggle text-navy px-4 py-1 text-sm font-semibold rounded-md hover:bg-gray-200 transition">Week</button>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Calendar Section -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <div class="flex gap-3 mb-6">
+                        <button id="monthViewBtn" class="calendar-toggle bg-navy text-white px-4 py-2 rounded-lg font-bold transition">
+                            <i class="fa-solid fa-calendar"></i> Month View
+                        </button>
+                        <button id="weekViewBtn" class="calendar-toggle hover:bg-gray-200 px-4 py-2 rounded-lg font-bold transition">
+                            <i class="fa-solid fa-calendar-week"></i> Week View
+                        </button>
                     </div>
-                </div>
-
-                <div id="calendar" class="w-full min-h-[800px] text-navy">
-                    <div class="text-center py-20 text-gray-400">Loading Calendar...</div>
+                    <div id="calendar" class="space-y-4"></div>
                 </div>
             </div>
 
-            <div class="lg:w-1/4">
-                <div class="bg-navy text-white p-6 rounded-xl shadow-lg h-full">
-                    <h2 class="text-2xl font-bold border-b border-gold pb-3 mb-4">Upcoming Events</h2>
-                    
-                    <div id="upcomingEventsList" class="space-y-4">
-                        <div class="text-center text-gray-300">Loading upcoming events...</div>
+            <!-- Upcoming Events Sidebar -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 h-fit">
+                <h2 class="font-serif text-2xl font-bold mb-6 text-navy">
+                    <i class="fa-solid fa-clock text-gold mr-2"></i>Upcoming Events
+                </h2>
+                <div id="upcomingEventsList" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <!-- Events Type Legend -->
+        <div class="mt-12 bg-white rounded-2xl shadow-lg p-8">
+            <h3 class="font-serif text-2xl font-bold mb-6 text-navy">Event Types</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-navy rounded-lg flex items-center justify-center text-gold flex-shrink-0">
+                        <i class="fa-solid fa-star text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-navy">Weekly</h4>
+                        <p class="text-sm text-gray-600">Recurring weekly events</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-gold rounded-lg flex items-center justify-center text-navy flex-shrink-0">
+                        <i class="fa-solid fa-calendar text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-navy">Monthly</h4>
+                        <p class="text-sm text-gray-600">Recurring monthly events</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-navy/70 rounded-lg flex items-center justify-center text-gold flex-shrink-0">
+                        <i class="fa-solid fa-bolt text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-navy">Upcoming</h4>
+                        <p class="text-sm text-gray-600">One-time special events</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-gold/50 rounded-lg flex items-center justify-center text-navy flex-shrink-0">
+                        <i class="fa-solid fa-circle text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-navy">Today</h4>
+                        <p class="text-sm text-gray-600">Today's date highlight</p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <footer class="bg-navy text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-400 text-sm">
+            <p>&copy; 2025 Aurora Community Hub. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script src="main.js"></script>
 </body>
