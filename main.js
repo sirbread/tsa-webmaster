@@ -1,14 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Mobile Menu Toggle Logic
-    const menuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if(menuBtn && mobileMenu) {
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    }
+     // Mobile Menu Toggle Logic
+     const menuBtn = document.getElementById('mobileMenuBtn');
+     const mobileMenu = document.getElementById('mobileMenu');
+     if(menuBtn && mobileMenu) {
+         menuBtn.addEventListener('click', () => {
+             mobileMenu.classList.toggle('hidden');
+         });
+     }
 
-    // Initialize Components based on which page is active
+     // Highlight active nav link
+     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+     document.querySelectorAll('.nav-link').forEach(link => {
+         link.classList.remove('active', 'active-page');
+         const href = link.getAttribute('href');
+         if(href === currentPage || (currentPage === '' && href === 'index.html')) {
+             link.classList.add('active', 'active-page');
+         }
+     });
+
+     // Initialize Components based on which page is active
     if (document.getElementById('carouselTrack')) {
         initCarousel();
         initStats();
