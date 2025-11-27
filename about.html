@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reference Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -20,16 +22,16 @@
     <nav class="bg-navy text-white sticky top-0 z-50 shadow-lg transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <a href="index.html" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-navy font-bold text-xl transition">A</div>
-                    <span class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></span>
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-navy font-bold text-lg md:text-xl transition shrink-0">A</div>
+                    <span class="font-serif text-lg md:text-2xl tracking-wide text-white">Aurora<span class="text-gold">Hub</span></span>
                 </a>
                 
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="index.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Home</a>
                     <a href="resources.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Resources</a>
                     <a href="events.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Events</a>
-                    <a href="about.html" class="nav-link active font-semibold tracking-wide hover:text-gold transition py-2">Reference</a>
+                    <a href="references.html" class="nav-link active font-semibold tracking-wide hover:text-gold transition py-2">Reference Page</a>
                     <a href="submit.html" class="bg-gold text-navy px-6 py-2 rounded-full font-bold hover:bg-white transition shadow-md transform hover:-translate-y-0.5">Submit Resource</a>
                 </div>
 
@@ -38,23 +40,23 @@
                 </button>
             </div>
         </div>
-        <div id="mobileMenu" class="hidden md:hidden bg-navy border-t border-gray-700">
-            <a href="index.html" class="block px-4 py-3 hover:bg-gray-800">Home</a>
-            <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800">Resources</a>
-            <a href="events.html" class="block px-4 py-3 hover:bg-gray-800">Events</a>
-            <a href="about.html" class="block px-4 py-3 hover:bg-gray-800 text-gold">Reference</a>
-            <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit Resource</a>
+        <div id="mobileMenu" class="hidden md:hidden bg-navy border-t border-gray-700 w-full z-40">
+            <a href="index.html" class="block px-4 py-3 hover:bg-gray-800 text-white">Home</a>
+            <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800 text-white">Resources</a>
+            <a href="events.html" class="block px-4 py-3 hover:bg-gray-800 text-white">Events</a>
+            <a href="references.html" class="block px-4 py-3 hover:bg-gray-800 text-gold font-semibold">Reference Page</a>
+            <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 text-white font-bold">Submit Resource</a>
         </div>
     </nav>
 
-    <div class="max-w-3xl mx-auto px-4 py-20 text-center flex-grow">
-        <h1 class="font-serif text-5xl font-bold mb-8">Reference Page</h1>
-        <div class="prose prose-lg mx-auto text-gray-600">
-            <p class="mb-6">All assets obtained for this site are under the CC0 license.</p>
-            <p class="mb-6">Real foundations and resources have been listed, with the corresponding sites and sources.</p>
-            <div class="mt-10 space-y-4">
-                <a href="scc.pdf" class="inline-block bg-gold text-navy px-6 py-3 rounded font-bold hover:bg-opacity-90">Student Copyright Checklist</a>
-                <a href="work-log.pdf" class="inline-block bg-gold text-navy px-6 py-3 rounded font-bold hover:bg-opacity-90 ml-4">Work Log</a>
+    <div class="max-w-3xl mx-auto px-4 py-8 md:py-20 text-center flex-grow">
+        <h1 class="font-serif text-3xl md:text-5xl font-bold mb-4 md:mb-8">Reference Page</h1>
+        <div class="prose mx-auto text-gray-600 text-sm md:text-base">
+            <p class="mb-3 md:mb-6 leading-relaxed">All assets obtained for this site are under the CC0 license.</p>
+            <p class="mb-6 md:mb-8 leading-relaxed">Real foundations and resources have been listed, with the corresponding sites and sources.</p>
+            <div class="mt-6 md:mt-10 space-y-2 md:space-y-4 flex flex-col md:flex-row justify-center gap-2 md:gap-4">
+                <a href="scc.pdf" class="bg-gold text-navy px-4 md:px-6 py-2 md:py-3 rounded font-bold hover:bg-opacity-90 w-full md:w-auto text-sm md:text-base">Student Copyright Checklist</a>
+                <a href="work-log.pdf" class="bg-gold text-navy px-4 md:px-6 py-2 md:py-3 rounded font-bold hover:bg-opacity-90 w-full md:w-auto text-sm md:text-base">Work Log</a>
             </div>
         </div>
     </div>

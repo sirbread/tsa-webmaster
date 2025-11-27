@@ -26,9 +26,9 @@
     <nav class="bg-navy text-white sticky top-0 z-50 shadow-lg transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <a href="index.html" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-navy font-bold text-xl transition">A</div>
-                    <span class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></span>
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-navy font-bold text-lg md:text-xl transition shrink-0">A</div>
+                    <span class="font-serif text-lg md:text-2xl tracking-wide text-white">Aurora<span class="text-gold">Hub</span></span>
                 </a>
                 
                 <div class="hidden md:flex items-center space-x-8">
@@ -46,39 +46,39 @@
         </div>
     </nav>
 
-    <div id="mobileMenu" class="hidden md:hidden bg-navy border-t border-gray-700">
-        <a href="index.html" class="block px-4 py-3 hover:bg-gray-800">Home</a>
-        <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800">Resources</a>
-        <a href="events.html" class="block px-4 py-3 hover:bg-gray-800 text-gold">Events</a>
-        <a href="references.html" class="block px-4 py-3 hover:bg-gray-800">Reference Page</a>
-        <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit Resource</a>
+    <div id="mobileMenu" class="hidden md:hidden bg-navy border-t border-gray-700 w-full z-40 relative">
+       <a href="index.html" class="block px-4 py-3 hover:bg-gray-800 text-white">Home</a>
+       <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800 text-white">Resources</a>
+       <a href="events.html" class="block px-4 py-3 hover:bg-gray-800 text-gold font-semibold">Events</a>
+       <a href="references.html" class="block px-4 py-3 hover:bg-gray-800 text-white">Reference Page</a>
+       <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 text-white font-bold">Submit Resource</a>
     </div>
 
-    <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-12">
-        <div class="text-center mb-12">
-            <h1 class="font-serif text-5xl font-bold mb-4 text-navy">Community Events</h1>
-            <p class="text-gray-600 text-lg">Stay connected with upcoming programs and activities in Aurora.</p>
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-8 md:py-12">
+        <div class="text-center mb-8 md:mb-12">
+            <h1 class="font-serif text-4xl md:text-5xl font-bold mb-3 md:mb-4 text-navy">Community Events</h1>
+            <p class="text-gray-600 text-base md:text-lg">Stay connected with upcoming programs and activities in Aurora.</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
             <!-- Calendar Section -->
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-2xl shadow-lg p-8">
-                    <div class="flex gap-3 mb-6">
-                        <button id="monthViewBtn" class="calendar-toggle bg-navy text-white px-4 py-2 rounded-lg font-bold transition">
-                            <i class="fa-solid fa-calendar"></i> Month View
+                <div class="bg-white rounded-2xl shadow-lg p-4 md:p-8">
+                    <div class="flex gap-2 md:gap-3 mb-6 flex-wrap md:flex-nowrap">
+                        <button id="monthViewBtn" class="calendar-toggle bg-navy text-white px-3 md:px-4 py-2 rounded-lg font-bold transition text-sm md:text-base">
+                            <i class="fa-solid fa-calendar hidden sm:inline mr-2"></i> Month View
                         </button>
-                        <button id="weekViewBtn" class="calendar-toggle hover:bg-gray-200 px-4 py-2 rounded-lg font-bold transition">
-                            <i class="fa-solid fa-calendar-week"></i> Week View
+                        <button id="weekViewBtn" class="calendar-toggle hover:bg-gray-200 px-3 md:px-4 py-2 rounded-lg font-bold transition text-sm md:text-base">
+                            <i class="fa-solid fa-calendar-week hidden sm:inline mr-2"></i> Week View
                         </button>
                     </div>
-                    <div id="calendar" class="space-y-4"></div>
+                    <div id="calendar" class="space-y-4 overflow-x-auto"></div>
                 </div>
             </div>
 
             <!-- Upcoming Events Sidebar -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 h-fit">
-                <h2 class="font-serif text-2xl font-bold mb-6 text-navy">
+            <div class="bg-white rounded-2xl shadow-lg p-4 md:p-6 lg:h-fit">
+                <h2 class="font-serif text-xl md:text-2xl font-bold mb-4 md:mb-6 text-navy">
                     <i class="fa-solid fa-clock text-gold mr-2"></i>Upcoming Events
                 </h2>
                 <div id="upcomingEventsList" class="space-y-3"></div>
@@ -86,9 +86,9 @@
         </div>
 
         <!-- Events Type Legend -->
-        <div class="mt-12 bg-white rounded-2xl shadow-lg p-8">
-            <h3 class="font-serif text-2xl font-bold mb-6 text-navy">Event Types</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="mt-8 md:mt-12 bg-white rounded-2xl shadow-lg p-4 md:p-8">
+            <h3 class="font-serif text-xl md:text-2xl font-bold mb-4 md:mb-6 text-navy">Event Types</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <div class="flex items-start gap-3">
                     <div class="w-8 h-8 bg-navy rounded-lg flex items-center justify-center text-gold flex-shrink-0">
                         <i class="fa-solid fa-star text-sm"></i>
