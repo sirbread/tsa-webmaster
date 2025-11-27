@@ -17,23 +17,35 @@
     </script>
 </head>
 <body class="bg-offWhite text-navy font-sans">
-    <nav class="bg-navy text-white sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
-            <a href="index.html" class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="index.html" class="hover:text-gold py-2">Home</a>
-                <a href="resources.html" class="hover:text-gold py-2">Resources</a>
-                <a href="events.html" class="hover:text-gold py-2">Events</a>
-                <a href="about.html" class="text-gold font-bold border-b-2 border-gold py-2">Reference</a>
-                <a href="submit.html" class="bg-gold text-navy px-5 py-2 rounded-full font-bold">Submit</a>
+    <nav class="bg-navy text-white sticky top-0 z-50 shadow-lg transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-navy font-bold text-xl group-hover:rotate-12 transition">A</div>
+                    <span class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></span>
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Home</a>
+                    <a href="resources.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Resources</a>
+                    <a href="events.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Events</a>
+                    <a href="about.html" class="nav-link active font-semibold tracking-wide hover:text-gold transition py-2">Reference</a>
+                    <a href="submit.html" class="bg-gold text-navy px-6 py-2 rounded-full font-bold hover:bg-white transition shadow-md transform hover:-translate-y-0.5">Submit Resource</a>
+                </div>
+
+                <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
-            <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-navy border-t border-gray-700">
+            <a href="index.html" class="block px-4 py-3 hover:bg-gray-800">Home</a>
+            <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800">Resources</a>
+            <a href="events.html" class="block px-4 py-3 hover:bg-gray-800">Events</a>
+            <a href="about.html" class="block px-4 py-3 hover:bg-gray-800 text-gold">Reference</a>
+            <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit Resource</a>
         </div>
     </nav>
-    <div id="mobileMenu" class="hidden md:hidden bg-navy text-white border-t border-gray-700">
-         <a href="index.html" class="block px-4 py-3">Home</a>
-         <a href="about.html" class="block px-4 py-3">Reference</a>
-    </div>
 
     <div class="max-w-3xl mx-auto px-4 py-20 text-center">
         <h1 class="font-serif text-5xl font-bold mb-8">Reference Page</h1>
@@ -46,6 +58,37 @@
             </div>
         </div>
     </div>
+
+    <footer class="bg-navy text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h3 class="font-serif text-2xl text-gold mb-4">AuroraHub</h3>
+                <p class="text-gray-400">Connecting the community through accessible information and shared resources.</p>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase tracking-wider mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="index.html" class="hover:text-gold">Home</a></li>
+                    <li><a href="resources.html" class="hover:text-gold">Directory</a></li>
+                    <li><a href="events.html" class="hover:text-gold">Events</a></li>
+                    <li><a href="submit.html" class="hover:text-gold">Submit Resource</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase tracking-wider mb-4">Contact</h4>
+                <p class="text-gray-400">info@aurorahub.org</p>
+                <p class="text-gray-400">Aurora, CO 80012</p>
+                <div class="flex gap-4 mt-4">
+                    <a href="#" class="text-gold hover:text-white"><i class="fa-brands fa-facebook text-xl"></i></a>
+                    <a href="#" class="text-gold hover:text-white"><i class="fa-brands fa-twitter text-xl"></i></a>
+                    <a href="#" class="text-gold hover:text-white"><i class="fa-brands fa-instagram text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12 text-gray-600 text-sm border-t border-gray-800 pt-8">
+            &copy; 2025 Aurora Community Hub. All rights reserved.
+        </div>
+    </footer>
     <script src="main.js"></script>
 </body>
 </html>

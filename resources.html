@@ -47,27 +47,35 @@
 </head>
 <body class="bg-offWhite text-navy font-sans flex flex-col h-screen overflow-hidden">
 
-    <nav class="bg-navy text-white shrink-0 z-50 shadow-lg relative">
-        <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
-            <a href="index.html" class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="index.html" class="nav-link hover:text-gold transition py-2">Home</a>
-                <a href="resources.html" class="nav-link active-page hover:text-gold transition py-2">Resources</a>
-                <a href="events.html" class="nav-link hover:text-gold transition py-2">Events</a>
-                <a href="about.html" class="nav-link hover:text-gold transition py-2">About</a>
-                <a href="submit.html" class="bg-gold text-navy px-5 py-2 rounded-full font-bold hover:bg-white transition">Submit</a>
+    <nav class="bg-navy text-white shrink-0 z-50 shadow-lg transition-all duration-300 relative" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gold rounded-full flex items-center justify-center text-navy font-bold text-xl group-hover:rotate-12 transition">A</div>
+                    <span class="font-serif text-2xl tracking-wide">Aurora<span class="text-gold">Hub</span></span>
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Home</a>
+                    <a href="resources.html" class="nav-link active font-semibold tracking-wide hover:text-gold transition py-2">Resources</a>
+                    <a href="events.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Events</a>
+                    <a href="about.html" class="nav-link font-semibold tracking-wide hover:text-gold transition py-2">Reference</a>
+                    <a href="submit.html" class="bg-gold text-navy px-6 py-2 rounded-full font-bold hover:bg-white transition shadow-md transform hover:-translate-y-0.5">Submit Resource</a>
+                </div>
+
+                <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
-             <button id="mobileMenuBtn" class="md:hidden text-2xl text-gold">
-                <i class="fa-solid fa-bars"></i>
-            </button>
         </div>
     </nav>
 
-    <div id="mobileMenu" class="hidden absolute top-20 left-0 w-full bg-navy text-white z-50 border-t border-gray-700">
+    <div id="mobileMenu" class="hidden absolute top-20 left-0 w-full bg-navy border-t border-gray-700 z-50">
         <a href="index.html" class="block px-4 py-3 hover:bg-gray-800">Home</a>
-        <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800">Resources</a>
+        <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800 text-gold">Resources</a>
         <a href="events.html" class="block px-4 py-3 hover:bg-gray-800">Events</a>
-        <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit</a>
+        <a href="about.html" class="block px-4 py-3 hover:bg-gray-800">Reference</a>
+        <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit Resource</a>
     </div>
 
     <div class="flex flex-1 overflow-hidden relative z-0">
