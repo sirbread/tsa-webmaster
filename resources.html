@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resources | Aurora Community Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -29,6 +30,10 @@
             left: 0; 
             right: 0; 
             z-index: 1;
+        }
+        main { display: none; }
+        @media (min-width: 768px) {
+            main { display: flex; }
         }
         .nav-link.active-page { color: #d4af37; border-bottom: 2px solid #d4af37; }
         .select-wrapper::after {
@@ -71,11 +76,11 @@
     </nav>
 
     <div id="mobileMenu" class="hidden md:hidden bg-navy border-t border-gray-700 z-40">
-        <a href="index.html" class="block px-4 py-3 hover:bg-gray-800">Home</a>
+        <a href="index.html" class="block px-4 py-3 text-white hover:bg-gray-800">Home</a>
         <a href="resources.html" class="block px-4 py-3 hover:bg-gray-800 text-gold">Resources</a>
-        <a href="events.html" class="block px-4 py-3 hover:bg-gray-800">Events</a>
-        <a href="references.html" class="block px-4 py-3 hover:bg-gray-800">Reference Page</a>
-        <a href="submit.html" class="block px-4 py-3 hover:bg-gray-800 font-bold">Submit Resource</a>
+        <a href="events.html" class="block px-4 py-3 text-white hover:bg-gray-800">Events</a>
+        <a href="references.html" class="block px-4 py-3 text-white hover:bg-gray-800">Reference Page</a>
+        <a href="submit.html" class="block px-4 py-3 text-white hover:bg-gray-800 font-bold">Submit Resource</a>
     </div>
 
     <div class="flex flex-col md:flex-row flex-1 overflow-hidden relative z-0">
@@ -106,7 +111,7 @@
                 </div>
         </aside>
 
-        <main class="hidden md:block flex-1 relative z-10 bg-gray-200 md:h-auto">
+        <main class="hidden md:flex flex-1 relative z-10 bg-gray-200">
             <div id="map"></div>
         </main>
     </div>
