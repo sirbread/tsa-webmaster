@@ -628,23 +628,62 @@ function generateMonthGrid() {
     for (let day = 1; day <= daysInMonth; day++) {
          const date = new Date(currentYear, currentMonth, day);
          
+         // Get all events for this day
          const dayEvents = currentEvents.filter(e => 
              e.date.getDate() === day &&
              e.date.getMonth() === currentMonth &&
              e.date.getFullYear() === currentYear
          );
 
+         // --- BUILD TOOLTIP CONTENT (ALL EVENTS) ---
+         let tooltipHtml = '';
+         if (dayEvents.length > 0) {
+             const eventDetails = dayEvents.map(e => `
+                <div class="mb-3 last:mb-0 border-b border-gray-100 pb-2 last:border-0 last:pb-0">
+                    <strong class="text-gold text-sm block">${e.title}</strong>
+                    <span class="text-xs text-gray-300 block mb-1">
+                        <i class="fa-regular fa-clock mr-1"></i>${e.date.toLocaleTimeString('en-US', { hour: 'numeric', minute:'2-digit'})}
+                    </span>
+                    <span class="text-xs text-gray-400 block">${e.loc}</span>
+                </div>
+             `).join('');
+
+             tooltipHtml = `
+                <div class="hidden group-hover:block absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 bg-navy text-white p-4 rounded-xl shadow-2xl border-2 border-gold text-left">
+                    <h5 class="font-bold text-white text-md mb-2 border-b border-white/20 pb-1">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</h5>
+                    ${eventDetails}
+                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-gold"></div>
+                </div>
+             `;
+         }
+
+         // --- BUILD CELL CONTENT (PILLS) ---
+         // Only show up to 2 pills, then "+ X more"
+         const maxVisible = 2;
+         const visibleEvents = dayEvents.slice(0, maxVisible);
+         const remainder = dayEvents.length - maxVisible;
+
+         const pillsHtml = visibleEvents.map(e => `
+            <div class="text-[10px] bg-navy text-white px-1.5 py-0.5 rounded truncate mb-0.5">
+                ${e.title}
+            </div>
+         `).join('');
+
+         const moreLabel = remainder > 0 
+            ? `<div class="text-[9px] text-center bg-gray-100 text-gray-500 rounded px-1 py-0.5 mt-1 font-bold">+ ${remainder} more</div>` 
+            : '';
+
+         // --- ASSEMBLE CELL ---
          html += `
-             <div class="h-24 md:h-28 border border-gray-100 rounded-lg p-2 hover:shadow-md transition bg-white relative overflow-hidden group">
+             <div class="h-24 md:h-28 border border-gray-100 rounded-lg p-2 transition bg-white relative group hover:z-30 hover:border-gold hover:shadow-lg cursor-pointer">
                  <span class="font-bold text-sm text-gray-700 block mb-1">${day}</span>
-                 <div class="space-y-1 overflow-y-auto max-h-[80px] no-scrollbar">
-                    ${dayEvents.map(e => `
-                        <div class="text-[10px] bg-navy text-white px-1.5 py-0.5 rounded truncate" title="${e.title}">
-                            ${e.title}
-                        </div>
-                    `).join('')}
+                 
+                 <div class="overflow-hidden">
+                    ${pillsHtml}
+                    ${moreLabel}
                  </div>
-                 ${dayEvents.length > 2 ? `<div class="absolute bottom-0 left-0 w-full text-[9px] text-center bg-gray-50 text-gray-400">+ more</div>` : ''}
+
+                 ${tooltipHtml}
              </div>
          `;
     }
