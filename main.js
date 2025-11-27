@@ -150,7 +150,6 @@ function initStats() {
 /* =========================================
    RESOURCE DIRECTORY DATA & LOGIC
    ========================================= */
-// REAL DATA for Aurora, CO
 const resourceData = [
     { 
         id:1, 
@@ -266,7 +265,7 @@ function initResources() {
     if(document.getElementById('map')) {
         // Initialize Leaflet Map
         if(typeof L !== 'undefined') {
-            if(map) map.remove(); // Prevent duplicate initialization
+            if(map) map.remove(); 
              // Center on Aurora, CO
              map = L.map('map').setView([39.7294, -104.8319], 12);
             
@@ -329,11 +328,9 @@ function renderList(data) {
 function renderMap(data) {
     if(!map) return;
     
-    // Clear existing markers
     Object.values(markers).forEach(m => map.removeLayer(m));
     markers = {};
     
-    // Add new markers
     data.forEach(item => {
         const marker = L.marker([item.lat, item.lng]).addTo(map)
             .bindPopup(`
@@ -347,12 +344,10 @@ function renderMap(data) {
     });
 }
 
-// Interaction Functions attached to window for HTML access
 window.focusOnMap = function(id) {
     const item = resourceData.find(i => i.id === id);
     const marker = markers[id];
     
-    // On mobile, if map is hidden, show it
     if(window.innerWidth < 768) {
         const mapContainer = document.querySelector('main');
         if(mapContainer && mapContainer.classList.contains('hidden')) {
@@ -375,7 +370,7 @@ window.openModal = function(id) {
     document.getElementById('mTitle').innerText = item.title;
     document.getElementById('mCategory').innerText = item.cat;
     document.getElementById('mDesc').innerText = item.desc;
-    document.getElementById('mAddress').innerText = item.city; // Using city format
+    document.getElementById('mAddress').innerText = item.city; 
     document.getElementById('mPhone').innerText = item.phone;
 
     const mapLink = document.querySelector('#resourceModal a');
@@ -410,18 +405,18 @@ window.closeModal = function() {
 }
 
 window.toggleMobileMap = function() {
-    const mapDiv = document.querySelector('main'); // The main container holding the map
+    const mapDiv = document.querySelector('main');
     const btnIcon = document.querySelector('button[onclick="toggleMobileMap()"] i');
 
     if(mapDiv.classList.contains('hidden')) {
-        mapDiv.classList.remove('hidden'); // Show map
+        mapDiv.classList.remove('hidden'); 
         if(btnIcon) {
             btnIcon.classList.remove('fa-map');
             btnIcon.classList.add('fa-list');
         }
         if(map) setTimeout(() => map.invalidateSize(), 100);
     } else {
-        mapDiv.classList.add('hidden'); // Hide map
+        mapDiv.classList.add('hidden');
         if(btnIcon) {
             btnIcon.classList.remove('fa-list');
             btnIcon.classList.add('fa-map');
@@ -433,11 +428,10 @@ window.toggleMobileMap = function() {
    EVENTS CALENDAR GENERATOR
    ========================================= */
 
-// Event Generator to ensure we have data from Nov 2025 to Mar 2026
 function generateEventsData() {
     const events = [];
     
-    // 1. Static Highlight Events (Real dates from research)
+    // 1. Static Highlight Events
     events.push(
         { id: 101, title: "The Pond Ice Rink Opening", date: new Date(2025, 10, 26, 10, 0), loc: "Southlands", desc: "Seasonal ice skating rink opens for the winter season." },
         { id: 102, title: "Shop Small Market", date: new Date(2025, 10, 29, 9, 0), loc: "1427 Elmira St", desc: "Support local artisans and businesses." },
@@ -446,21 +440,19 @@ function generateEventsData() {
         { id: 105, title: "MLK Jr. Parade", date: new Date(2026, 0, 19, 10, 0), loc: "City Park", desc: "Commemorative march and celebration." }
     );
 
-    // 2. Generative Recurring Events (To fill the calendar weekly)
-    const startDate = new Date(2025, 10, 1); // Nov 1, 2025
-    const endDate = new Date(2026, 2, 31);   // March 31, 2026
+    // 2. Generative Recurring Events (Nov 1 2025 - Mar 31 2026)
+    const startDate = new Date(2025, 10, 1); 
+    const endDate = new Date(2026, 2, 31);   
 
-    // Loop through every day in the range
     for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
         const dayOfWeek = d.getDay(); // 0=Sun, 1=Mon...
         const dateNum = d.getDate();
         
         // Mondays (Recurring City Council)
         if (dayOfWeek === 1 && (dateNum > 7 && dateNum < 15 || dateNum > 21)) {
-            // 2nd and 4th Mondays usually
             events.push({
                 title: "City Council Meeting",
-                date: new Date(d.setHours(18, 30)),
+                date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 18, 30),
                 loc: "Aurora Municipal Center",
                 desc: "Public council meeting. Open to residents."
             });
@@ -470,7 +462,7 @@ function generateEventsData() {
         if (dayOfWeek === 3) {
             events.push({
                 title: "Community Food Pantry",
-                date: new Date(d.setHours(14, 0)),
+                date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 14, 0),
                 loc: "Interfaith Community Services",
                 desc: "Drive-up food distribution for families in need."
             });
@@ -480,29 +472,29 @@ function generateEventsData() {
         if (dayOfWeek === 4) {
             events.push({
                 title: "Teen Tech Time",
-                date: new Date(d.setHours(16, 0)),
+                date: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 16, 0),
                 loc: "Central Library",
                 desc: "Coding and maker space access for ages 12-18."
             });
         }
     }
     
-    // Sort chronologically
     return events.sort((a, b) => a.date - b.date);
 }
 
 // Global state for calendar
 let currentEvents = [];
-let currentMonth = 10; // November (0-indexed)
+let currentMonth = 10; // Nov
 let currentYear = 2025;
 let currentView = 'month';
+// Initialize Week Start to the first Sunday of Nov 2025 (Nov 2)
+let currentWeekStart = new Date(2025, 10, 2); 
 
 function initCalendar() {
     currentEvents = generateEventsData();
-    
-    // Set initial date to "Current" simulated date (Nov 2025)
     currentMonth = 10;
     currentYear = 2025;
+    currentWeekStart = new Date(2025, 10, 2);
 
     const monthViewBtn = document.getElementById('monthViewBtn');
     const weekViewBtn = document.getElementById('weekViewBtn');
@@ -516,6 +508,16 @@ function initCalendar() {
 
 function setView(view) {
     currentView = view;
+    // Sync logic when switching views
+    if (view === 'month') {
+        // When switching to month, ensure we show the month of the current week being viewed
+        currentMonth = currentWeekStart.getMonth();
+        currentYear = currentWeekStart.getFullYear();
+    } else {
+        // When switching to week, ensure we start on the Sunday of the current month's focus
+        // (Or keep currentWeekStart if it was already set correctly)
+    }
+
     renderCalendar();
 
     // Toggle button styles
@@ -535,16 +537,32 @@ function setView(view) {
     }
 }
 
-// Helper functions accessible to HTML onclicks
-window.prevMonth = function() {
-    currentMonth--;
-    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-    renderCalendar();
-}
-
-window.nextMonth = function() {
-    currentMonth++;
-    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+// Unified navigation function for both views
+window.changePeriod = function(direction) {
+    if (currentView === 'month') {
+        currentMonth += direction;
+        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+        
+        // Sync the week start to the new month (First Sunday of the new month)
+        // Find 1st of month
+        const firstOfMonth = new Date(currentYear, currentMonth, 1);
+        // Adjust to previous Sunday (or today if Sunday)
+        const dayOffset = firstOfMonth.getDay(); 
+        currentWeekStart = new Date(firstOfMonth);
+        currentWeekStart.setDate(firstOfMonth.getDate() - dayOffset);
+        
+    } else {
+        // Week View: Shift by 7 days
+        currentWeekStart.setDate(currentWeekStart.getDate() + (direction * 7));
+        
+        // Update month/year vars to match the week we just moved to (for display consistency)
+        // We use the Wednesday of the week to determine "majority" month ownership
+        const midWeek = new Date(currentWeekStart);
+        midWeek.setDate(midWeek.getDate() + 3);
+        currentMonth = midWeek.getMonth();
+        currentYear = midWeek.getFullYear();
+    }
     renderCalendar();
 }
 
@@ -552,25 +570,11 @@ function renderCalendar() {
      const calendarEl = document.getElementById('calendar');
      if(!calendarEl) return;
 
-     let headerControls = '';
+     let headerText = '';
      let bodyContent = '';
 
      if (currentView === 'month') {
-         const monthName = new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-         
-         headerControls = `
-             <div class="flex items-center justify-between md:justify-center gap-4 mb-6">
-                 <button onclick="prevMonth()" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
-                     <i class="fa-solid fa-chevron-left text-navy"></i>
-                 </button>
-                 <h3 class="text-center text-2xl font-serif font-bold text-navy w-48">
-                     ${monthName}
-                 </h3>
-                 <button onclick="nextMonth()" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
-                     <i class="fa-solid fa-chevron-right text-navy"></i>
-                 </button>
-             </div>
-         `;
+         headerText = new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
          
          bodyContent = `
              <div class="grid grid-cols-7 text-center font-bold text-gray-400 uppercase text-xs tracking-wider mb-2">
@@ -581,17 +585,31 @@ function renderCalendar() {
              </div>
          `;
      } else {
-         // Week View
-         const startDate = new Date(currentYear, currentMonth, 1); 
-         // For demo purposes in week view, we just show the first week of the selected month
-         headerControls = `
-             <div class="mb-4 pb-4 border-b border-gray-100">
-                <h3 class="text-xl font-bold text-navy">Week Overview</h3>
-                <p class="text-gray-500 text-sm">Showing events for selected week in ${new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long' })}.</p>
-             </div>
-         `;
+         // Calculate End Date of week for Header
+         const weekEnd = new Date(currentWeekStart);
+         weekEnd.setDate(weekEnd.getDate() + 6);
+         
+         const startStr = currentWeekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+         const endStr = weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+         
+         headerText = `${startStr} - ${endStr}`;
+
          bodyContent = `<div class="space-y-4">${generateWeekList()}</div>`;
      }
+
+     const headerControls = `
+         <div class="flex items-center justify-between md:justify-center gap-4 mb-6">
+             <button onclick="changePeriod(-1)" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+                 <i class="fa-solid fa-chevron-left text-navy"></i>
+             </button>
+             <h3 class="text-center text-xl md:text-2xl font-serif font-bold text-navy min-w-[200px]">
+                 ${headerText}
+             </h3>
+             <button onclick="changePeriod(1)" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+                 <i class="fa-solid fa-chevron-right text-navy"></i>
+             </button>
+         </div>
+     `;
 
      calendarEl.innerHTML = headerControls + bodyContent;
 }
@@ -601,7 +619,7 @@ function generateMonthGrid() {
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
     let html = '';
 
-    // Empty cells for days before the 1st
+    // Empty cells
     for (let i = 0; i < firstDay; i++) { 
         html += '<div class="h-24 md:h-28 bg-transparent"></div>'; 
     }
@@ -610,7 +628,6 @@ function generateMonthGrid() {
     for (let day = 1; day <= daysInMonth; day++) {
          const date = new Date(currentYear, currentMonth, day);
          
-         // Find events for this specific day
          const dayEvents = currentEvents.filter(e => 
              e.date.getDate() === day &&
              e.date.getMonth() === currentMonth &&
@@ -635,21 +652,23 @@ function generateMonthGrid() {
 }
 
 function generateWeekList() {
-    // Generates a list for the first 7 days of the current Month variable for display
     let html = '';
-    for(let i = 1; i <= 7; i++) {
-         const date = new Date(currentYear, currentMonth, i);
+    // Loop 7 days starting from currentWeekStart
+    for(let i = 0; i < 7; i++) {
+         const date = new Date(currentWeekStart);
+         date.setDate(date.getDate() + i);
+         
          const dayEvents = currentEvents.filter(e => 
-             e.date.getDate() === i &&
-             e.date.getMonth() === currentMonth &&
-             e.date.getFullYear() === currentYear
+             e.date.getDate() === date.getDate() &&
+             e.date.getMonth() === date.getMonth() &&
+             e.date.getFullYear() === date.getFullYear()
          );
 
          html += `
              <div class="flex gap-4 p-3 rounded-lg hover:bg-gray-50 transition border-l-4 ${dayEvents.length > 0 ? 'border-gold' : 'border-gray-200'}">
                  <div class="w-16 text-center shrink-0">
                      <div class="text-xs uppercase text-gray-500 font-bold">${date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
-                     <div class="text-2xl font-serif font-bold text-navy">${i}</div>
+                     <div class="text-2xl font-serif font-bold text-navy">${date.getDate()}</div>
                  </div>
                  <div class="flex-1">
                      ${dayEvents.length > 0 
@@ -676,11 +695,11 @@ function renderUpcomingList() {
     if(!listEl) return;
 
     // Filter events that are in the future relative to "Now" (Nov 2025 simulation)
-    const simulatedNow = new Date(2025, 10, 20); // Nov 20, 2025
+    const simulatedNow = new Date(2025, 10, 20); 
     
     const upcoming = currentEvents
         .filter(e => e.date >= simulatedNow)
-        .slice(0, 5); // Take first 5
+        .slice(0, 5); 
 
     listEl.innerHTML = upcoming.map(e => `
         <div class="flex gap-3 items-start p-3 bg-gray-50 rounded-lg border border-gray-100">
